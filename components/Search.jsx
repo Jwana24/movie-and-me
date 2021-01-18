@@ -10,13 +10,14 @@ import { getApiMovies } from '../API/TMDBApi';
 const Search = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
-
-    let page = 0 // Compteur pour connaître la page courante
-    let totalPages = 0 // Nombre de pages totales pour savoir si on a atteint la fin des retours de l'API TMDB
-    let searchText = '';
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [searchText, setSearchText] = useState('');
 
     const handleChangeText = (text) => {
-        searchText = text;
+        setPage(1);
+        setMovies([]);
+        setSearchText(text);
     }
 
     const isLoading = () => {
@@ -34,8 +35,8 @@ const Search = () => {
             setLoading(true);
             getApiMovies(searchText, page)
                 .then((data) => {
-                    page = data.page
-                    totalPages = data.total_pages
+                    // setPage(data.page);
+                    setTotalPages(data.total_pages);
                     setMovies([
                         ...movies,
                         ...data.results
@@ -44,6 +45,8 @@ const Search = () => {
                 })
         }
     }
+
+    // TODO: Tester setPage(page + 1) dans un useEffect
 
     return(
         // Une "View" est en quelque sorte une "div" en React
@@ -67,6 +70,7 @@ const Search = () => {
                 onEndReachedThreshold={0.5}
                 // événement se déclenche selon "onEndReachedThreshold"
                 onEndReached={() => {
+                    setPage(page + 1)
                     if(page < totalPages){
                         loadFilms()
                     }
