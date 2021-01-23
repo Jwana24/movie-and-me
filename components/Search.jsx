@@ -41,12 +41,15 @@ const Search = () => {
                         ...data.results
                     ])
                     setLoading(false);
-                    console.log('page into loadFilms function', page);
                 })
         }
     }
 
-    console.log('page before return', page);
+    useEffect(() => {
+        if(page < totalPages){
+            loadFilms()
+        }
+    }, [page])
 
     return(
         // Une "View" est en quelque sorte une "div" en React
@@ -71,10 +74,6 @@ const Search = () => {
                 // événement se déclenche selon "onEndReachedThreshold"
                 onEndReached={() => {
                     setPage(page + 1)
-                    if(page < totalPages){
-                        loadFilms()
-                        console.log('page into condition onEndReached', page);
-                    }
                 }}
             />
             {isLoading()}
