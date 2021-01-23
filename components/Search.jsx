@@ -35,18 +35,18 @@ const Search = () => {
             setLoading(true);
             getApiMovies(searchText, page)
                 .then((data) => {
-                    // setPage(data.page);
                     setTotalPages(data.total_pages);
                     setMovies([
                         ...movies,
                         ...data.results
                     ])
                     setLoading(false);
+                    console.log('page into loadFilms function', page);
                 })
         }
     }
 
-    // TODO: Tester setPage(page + 1) dans un useEffect
+    console.log('page before return', page);
 
     return(
         // Une "View" est en quelque sorte une "div" en React
@@ -73,6 +73,7 @@ const Search = () => {
                     setPage(page + 1)
                     if(page < totalPages){
                         loadFilms()
+                        console.log('page into condition onEndReached', page);
                     }
                 }}
             />
@@ -95,7 +96,8 @@ const styles = StyleSheet.create({
     view: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 30
     },
     textinput: {
         width: '90%',
