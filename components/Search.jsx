@@ -45,11 +45,17 @@ const Search = () => {
         }
     }
 
+    const searchFilms = () => {
+        setMovies([]);
+        setPage(1);
+        loadFilms();
+    }
+
     useEffect(() => {
         if(page < totalPages){
-            loadFilms()
+            loadFilms();
         }
-    }, [page])
+    }, [page]);
 
     return(
         // Une "View" est en quelque sorte une "div" en React
@@ -59,9 +65,13 @@ const Search = () => {
                 placeholder="Movie title"
                 onChangeText={handleChangeText}
                 // envoi de la requête au click du bouton "retour" (iOS) / "envoyer" (Android)
-                onSubmitEditing={loadFilms}
+                onSubmitEditing={searchFilms}
             />
-            <Button title="Rechercher" onPress={loadFilms} />
+            <Button
+                style={styles.buttonSearch}
+                title="Rechercher"
+                onPress={searchFilms}
+            />
             <FlatList
                 // on récupère ici les data
                 data={movies}
@@ -100,10 +110,13 @@ const styles = StyleSheet.create({
     },
     textinput: {
         width: '90%',
-        height: 50,
-        borderColor: '#000000',
+        padding: 15,
+        borderRadius: 50,
+        borderColor: '#b2bec3',
         borderWidth: 1,
-        paddingLeft: 5
+    },
+    buttonSearch: {
+        color: '#2d3436',
     }
 });
 
